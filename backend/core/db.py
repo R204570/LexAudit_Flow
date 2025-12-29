@@ -1,10 +1,18 @@
 from pymongo import MongoClient
 from datetime import datetime
 from typing import Optional
+import sys
+from pathlib import Path
 
-# MongoDB Connection
-MONGO_URI = "mongodb://localhost:27017"
-DB_NAME = "lexaudit_flow"
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+try:
+    from config import MONGO_URI, DB_NAME
+except ImportError:
+    # Fallback to defaults if config not found
+    MONGO_URI = "mongodb://localhost:27017"
+    DB_NAME = "lexaudit_flow"
 
 client = MongoClient(MONGO_URI)
 db = client[DB_NAME]
